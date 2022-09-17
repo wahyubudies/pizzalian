@@ -1,9 +1,10 @@
-import Head from 'next/head'
-import React from 'react'
-import Featured from '../components/Featured'
-import ProductList from '../components/ProductList'
+import axios from "axios";
+import Head from "next/head";
+import React from "react";
+import Featured from "../components/Featured";
+import ProductList from "../components/ProductList";
 
-export default function Home() {
+export default function Home({ productList }) {
   return (
     <React.Fragment>
       <Head>
@@ -13,7 +14,17 @@ export default function Home() {
       </Head>
 
       <Featured />
-      <ProductList/>
+      <ProductList productList={productList} />
     </React.Fragment>
-  )
+  );
 }
+
+export const getServerSideProps = async () => {
+  const reply = await axios.get("http://localhost:3000/api/products");
+
+  return {
+    props: {
+      productList: reply.data,
+    },
+  };
+};

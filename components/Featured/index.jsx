@@ -15,7 +15,6 @@ const Featured = () => {
     if (direction === "l") setIndex(index !== 0 ? index - 1 : 2)
     if (direction === "r") setIndex(index !== 2 ? index + 1 : 0)
   }
-  console.log(index)
 
   const  getImageSlider = images.map((img, i) => (
     <div className={styles.imgContainer} key={i}>
