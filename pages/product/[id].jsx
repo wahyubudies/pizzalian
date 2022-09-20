@@ -2,12 +2,15 @@ import React, { useState } from "react"
 import Image from "next/image"
 import styles from "./styles.module.css"
 import axios from "axios"
+import { useDispatch } from "react-redux"
+import { addProduct } from "../../redux/cartSlice"
 
 const Product = ({ product }) => {
   const [size, setSize] = useState(0)
   const [price, setPrice] = useState(product.prices[0])
   const [extras, setExtras] = useState([])
   const [quantity, setQuantity] = useState(1)
+  const dispatch = useDispatch()
 
   // fungsi untuk merubah harga
   const changePrice = (number) => {
@@ -34,6 +37,10 @@ const Product = ({ product }) => {
       changePrice(-option.price)
       setExtras(extras.filter(extra => extra._id !== option._id))
     }
+  }
+
+  const handleAddCart = () => {
+    dispatch(addProduct({ ...product, extras, price, quantity }))
   }
 
   // fungsi untuk meanmpilkan checkbox 
@@ -93,7 +100,7 @@ const Product = ({ product }) => {
             type="number"
             defaultValue={1}
             className={styles.quantity} />
-          <button className={styles.button}>Add to Cart</button>
+          <button className={styles.button} onClick={handleAddCart}>Add to Cart</button>
         </div>
       </div>
     </div>
